@@ -1,6 +1,6 @@
 'use strict';
 
-var app = angular.module('app', ['wu.masonry']);
+var app = angular.module('app', []);
 
 app.controller('AppCtrl', ['$scope', '$interval', '$sce', 'Feed', function($scope, $interval, $sce, Feed) {
 	var interval;
