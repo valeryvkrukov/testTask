@@ -1,0 +1,15 @@
+{
+	"name" : "netpeak/twitter-feed",
+	"description" : "Test task",
+	"authors" : [{
+			"name" : "valeryvkrukov",
+			"email" : "valery.v.krukov@gmail.com"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"Test\\App\\" : "app/"
+		}
+	},
+	"minimum-stability" : "RC"
+}
