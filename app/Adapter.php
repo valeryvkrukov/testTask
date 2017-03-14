@@ -3,7 +3,22 @@ namespace Test\App;
 
 abstract class Adapter
 {
+	protected $config;
 	protected $mapping = [];
+	
+	public function __construct()
+	{
+		$this->loadConfig();
+	}
+
+	protected function loadConfig()
+	{
+		try {
+			$this->config = parse_ini_file(realpath(__DIR__.'/config').'/config.ini', true);
+		} catch (\Exception $e) {
+			// var_dump($e->getMessage());
+		}
+	}
 	
 	abstract public function loadResource($params);
 	

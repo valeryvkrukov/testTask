@@ -13,7 +13,7 @@ app.controller('AppCtrl', ['$scope', '$interval', '$sce', 'Feed', function($scop
 	};
 	$scope.loadFeed = function() {
 		if ($scope.screenName != '') {
-			$scope.title = $sce.trustAsHtml('Feed from <em class="text-primary">@' + $scope.screenName + '</em> timeline');
+			$scope.title = $sce.trustAsHtml('Latest 25 items from <em class="text-primary">@' + $scope.screenName + '</em> timeline');
 			interval = setInterval(function() {
 				$scope.$apply(function() {
 					$scope.loader();

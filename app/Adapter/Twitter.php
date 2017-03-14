@@ -6,10 +6,26 @@ use Test\App\Adapter;
 class Twitter extends Adapter
 {
 	const API_URL = 'https://api.twitter.com/1.1/statuses/user_timeline.json';
-	protected $accessToken = '1060329758-Jwm8IfjBC6eRwNmvHRGoNyQnBozFaxdHrpffzY8';
-	protected $accessTokenSecret = 'GuuQgJhWnLyNdWZQize1kHM71bTpVGTD53uOo9AXcTHsH';
-	protected $consumerKey = 'DamzCJceqhiGHABBzWd6TZX72';
-	protected $consumerSecret = 'hfxg1PIezHl1yyDnKGriRXo4LCuajHrgXYUQswnr2yblKeRYuu';
+	protected $accessToken;
+	protected $accessTokenSecret;
+	protected $consumerKey;
+	protected $consumerSecret;
+	
+	protected function loadConfig()
+	{
+		parent::loadConfig();
+		if (isset($this->config['twitter'])) {
+			foreach (['accessToken', 'accessTokenSecret', 'consumerKey', 'consumerSecret'] as $field) {
+				if (isset($this->config['twitter'][$field])) {
+					$this->$field = $this->config['twitter'][$field];
+				} else {
+					throw new \Exception('Twitter adapter error: option "' . $field . '" is required');
+				}
+			}
+		} else {
+			throw new \Exception('Twitter adapter is not configured');
+		}
+	}
 	
 	public function loadResource($config)
 	{
