@@ -5,6 +5,8 @@ abstract class Adapter
 {
 	protected $config;
 	protected $mapping = [];
+	protected $adapterName;
+	protected $adapterOptions;
 	
 	public function __construct()
 	{
@@ -15,12 +17,33 @@ abstract class Adapter
 	{
 		try {
 			$this->config = parse_ini_file(realpath(__DIR__.'/config').'/config.ini', true);
+			if (isset($this->config[$this->adapterName])) {
+				foreach ($this->adapterOptions as $option) {
+					if (isset($this->config[$this->adapterName][$option])) {
+						$this->$option = $this->config[$this->adapterName][$option];
+					} else {
+						throw new \Exception(ucfirst($this->adapterName) . ' adapter error: option "' . $option . '" is required');
+					}
+				}
+			} else {
+				throw new \Exception(ucfirst($this->adapterName) . ' adapter is not configured');
+			}
 		} catch (\Exception $e) {
 			// var_dump($e->getMessage());
 		}
 	}
 	
 	abstract public function loadResource($params);
+	
+	protected function setName($name)
+	{
+		$this->adapterName = $name;
+	}
+	
+	protected function setOptions($options)
+	{
+		$this->adapterOptions = $options;
+	}
 	
 	protected function setMapping($mapping)
 	{

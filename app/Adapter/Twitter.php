@@ -11,20 +11,16 @@ class Twitter extends Adapter
 	protected $consumerKey;
 	protected $consumerSecret;
 	
-	protected function loadConfig()
+	public function __construct()
 	{
-		parent::loadConfig();
-		if (isset($this->config['twitter'])) {
-			foreach (['accessToken', 'accessTokenSecret', 'consumerKey', 'consumerSecret'] as $field) {
-				if (isset($this->config['twitter'][$field])) {
-					$this->$field = $this->config['twitter'][$field];
-				} else {
-					throw new \Exception('Twitter adapter error: option "' . $field . '" is required');
-				}
-			}
-		} else {
-			throw new \Exception('Twitter adapter is not configured');
-		}
+		$this->setName('twitter');
+		$this->setOptions(['accessToken', 'accessTokenSecret', 'consumerKey', 'consumerSecret']);
+		$this->setMapping([
+			'id' => 'id_str',
+			'text' => 'text',
+			'date' => 'created_at',
+		]);
+		parent::__construct();		
 	}
 	
 	public function loadResource($config)
@@ -63,11 +59,6 @@ class Twitter extends Adapter
 				'status' => 'error',
 			];
 		}
-		$this->setMapping([
-			'id' => 'id_str',
-			'text' => 'text',
-			'date' => 'created_at',
-		]);
 		return $this->normalizeFeed($data);
 	}
 	
